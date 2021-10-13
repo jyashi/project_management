@@ -1,10 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'home_page.dart';
-
-// void main() {
-//   runApp(const MyScaffold());
-// }
-
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
