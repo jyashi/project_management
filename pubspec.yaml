@@ -30,8 +30,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  
-sensors_plus:
+
+  charts_flutter:
+  sensors_plus:
+
+  # flutter_circular_chart:
+  syncfusion_flutter_charts:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

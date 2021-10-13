@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/home_page.dart';
+import 'home_page.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:sensors_plus/sensors_plus.dart';
 
 class Navtej extends StatelessWidget {
   const Navtej({Key? key}) : super(key: key);
@@ -22,20 +24,24 @@ class Navtej extends StatelessWidget {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
           ),
         ),
-        body: NavtejBody(),
+        body: Column(
+          children: [
+            ProjectOverview(),
+          ],
+        ),
       ),
     );
   }
 }
 
-class NavtejBody extends StatefulWidget {
-  const NavtejBody({Key? key}) : super(key: key);
+class ProjectOverview extends StatefulWidget {
+  const ProjectOverview({Key? key}) : super(key: key);
 
   @override
-  _NavtejBodyState createState() => _NavtejBodyState();
+  _ProjectOverviewState createState() => _ProjectOverviewState();
 }
 
-class _NavtejBodyState extends State<NavtejBody> {
+class _ProjectOverviewState extends State<ProjectOverview> {
   String textProject = "Project Overview:";
 
   @override
@@ -55,23 +61,43 @@ class _NavtejBodyState extends State<NavtejBody> {
                       style: TextStyle(fontSize: 25)),
                   Padding(padding: EdgeInsets.all(8)),
                   RichText(
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     text: const TextSpan(
-                        text: "Hello\n",
+                        text:
+                            "1. Looked at sensors_plus library to access sensor data\n\n",
                         style: TextStyle(color: Colors.black),
                         children: <TextSpan>[
                           TextSpan(
-                            text: "The main body goes here.",
+                            text: "2. Extracted sensor data to JSON file.\n\n",
                           ),
-                          TextSpan(text: "So this will open in a new line?")
+                          TextSpan(
+                              text:
+                                  "3. Played around with different layouts of flutter.\n\n")
                         ]),
                   ),
                 ]),
               ),
             ),
           ),
+          Icon(Icons.access_alarm),
+          Icon(Icons.add_chart),
+          //Next child
         ],
       ),
     );
+  }
+}
+
+class SensorDataBody extends StatefulWidget {
+  const SensorDataBody({Key? key}) : super(key: key);
+
+  @override
+  _SensorDataBodyState createState() => _SensorDataBodyState();
+}
+
+class _SensorDataBodyState extends State<SensorDataBody> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
