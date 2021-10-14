@@ -97,38 +97,70 @@ class SensorDataBody extends StatefulWidget {
 }
 
 class _SensorDataBodyState extends State<SensorDataBody> {
-  @override
-  void initState() {
-    double x, y, z;
-    super.initState();
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        x = event.x;
-        y = event.y;
-        z = event.z;
-      });
-    });
-  }
+  // @override
+  // void initState() {
+  //   double x, y, z;
+  //   super.initState();
+  //   accelerometerEvents.listen((AccelerometerEvent event) {
+  //     setState(() {
+  //       x = event.x;
+  //       y = event.y;
+  //       z = event.z;
+  //       @override
+  //       Widget build(BuildContext context) {
+  //         return Center(child: Text("$x"));
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
-  double x = 0.1;
+  double x = 0.0;
   double y = 0.0;
-  double z = 0.4;
+  double z = 0.0;
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
           Padding(padding: EdgeInsets.all(8)),
-          ElevatedButton(onPressed: () {}, child: Text("Generate data")),
+          Text("Data gathered from phone Accelerometer",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w200,
+              )),
           Padding(padding: EdgeInsets.all(8)),
+          ElevatedButton(
+              onPressed: () {
+                accelerometerEvents.listen((AccelerometerEvent event) {
+                  setState(() {
+                    x = event.x;
+                    y = event.y;
+                    z = event.z;
+                    @override
+                    Widget build(BuildContext context) {
+                      return Center(child: Text("$x"));
+                    }
+                  });
+                });
+              },
+              child: Text("Generate data")),
+          Padding(padding: EdgeInsets.all(8)),
+
           Container(
             width: 300,
             child: Card(
               child: SfSparkBarChart(
                 data: [x, y, z],
+                negativePointColor: Colors.red,
+                axisCrossesAt: 0,
+                labelDisplayMode: SparkChartLabelDisplayMode.all,
               ),
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [Text("X Value"), Text("Y Value"), Text("Z Value")],
+          )
           // Card(
           //   child: BarChart(BarChartData(
           //     minY: -5,
@@ -142,29 +174,35 @@ class _SensorDataBodyState extends State<SensorDataBody> {
   }
 }
 
-class XData extends StatefulWidget {
-  const XData({Key? key}) : super(key: key);
+// class DataTest extends StatefulWidget {
+//   const DataTest({Key? key}) : super(key: key);
 
-  @override
-  _XDataState createState() => _XDataState();
-}
+//   @override
+//   _DataTestState createState() => _DataTestState();
+// }
 
-class _XDataState extends State<XData> {
-  @override
-  void initState() {
-    double x, y, z;
-    super.initState();
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        x = event.x;
-        y = event.y;
-        z = event.z;
-      });
-    });
-  }
+// class _DataTestState extends State<DataTest> {
+//   @override
+//   void initState() {
+//     double x, y, z;
+//     // TODO: implement initState
+//     super.initState();
+//   }
+//     @override
+//     Widget build(BuildContext context){accelerometerEvents.listen((AccelerometerEvent event) {
+//       setState(() {
+//         double x, y, z;
+//         x = event.x;
+//         y = event.y;
+//         z = event.z;
+//       });
+//         @override
+//         Widget build(BuildContext context) {
+//           return Center(child: Text("$x"));
+//         }
+//       });
+//     });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
+    
+//   }
+// }
