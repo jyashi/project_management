@@ -33,6 +33,9 @@ dependencies:
 
   fl_chart:
   sensors_plus:
+  path_provider: 
+  permission_handler: 
+  
 
   # flutter_circular_chart:
   syncfusion_flutter_charts:

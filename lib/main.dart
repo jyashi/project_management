@@ -1,137 +1,164 @@
+// import 'package:flutter/material.dart';
+// import 'home_page.dart';
+// import 'data_storage.dart';
+
+// void main() {
+//   runApp(const MyScaffold());
+// }
+
+import 'dart:io';
+
+import 'package:baseflow_plugin_template/baseflow_plugin_template.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
-  runApp(const MyScaffold());
+  runApp(BaseflowPluginExample(
+      pluginName: 'Permission Handler',
+      githubURL: 'https://github.com/Baseflow/flutter-permission-handler',
+      pubDevURL: 'https://pub.dev/packages/permission_handler',
+      pages: [PermissionHandlerWidget.createPage()]));
 }
 
-// import 'dart:math';
+///Defines the main theme color
+final MaterialColor themeMaterialColor =
+    BaseflowPluginExample.createMaterialColor(
+        const Color.fromRGBO(48, 49, 60, 1));
 
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:sensors_plus/sensors_plus.dart';
+/// A Flutter application demonstrating the functionality of this plugin
+class PermissionHandlerWidget extends StatefulWidget {
+  /// Create a page containing the functionality of this plugin
+  static ExamplePage createPage() {
+    return ExamplePage(
+        Icons.location_on, (context) => PermissionHandlerWidget());
+  }
 
-// void main() => runApp(MyApp());
+  @override
+  _PermissionHandlerWidgetState createState() =>
+      _PermissionHandlerWidgetState();
+}
 
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyHomePage(),
-//     );
-//   }
-// }
+class _PermissionHandlerWidgetState extends State<PermissionHandlerWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ListView(
+          children: Permission.values
+              .where((permission) {
+                if (Platform.isIOS) {
+                  return permission != Permission.unknown &&
+                      permission != Permission.sms &&
+                      permission != Permission.storage &&
+                      permission != Permission.ignoreBatteryOptimizations &&
+                      permission != Permission.accessMediaLocation &&
+                      permission != Permission.activityRecognition &&
+                      permission != Permission.manageExternalStorage &&
+                      permission != Permission.systemAlertWindow &&
+                      permission != Permission.requestInstallPackages &&
+                      permission != Permission.accessNotificationPolicy &&
+                      permission != Permission.bluetoothScan &&
+                      permission != Permission.bluetoothAdvertise &&
+                      permission != Permission.bluetoothConnect;
+                } else {
+                  return permission != Permission.unknown &&
+                      permission != Permission.mediaLibrary &&
+                      permission != Permission.photos &&
+                      permission != Permission.photosAddOnly &&
+                      permission != Permission.reminders &&
+                      permission != Permission.appTrackingTransparency &&
+                      permission != Permission.criticalAlerts;
+                }
+              })
+              .map((permission) => PermissionWidget(permission))
+              .toList()),
+    );
+  }
+}
 
-// class MyHomePage extends StatefulWidget {
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
+/// Permission widget containing information about the passed [Permission]
+class PermissionWidget extends StatefulWidget {
+  /// Constructs a [PermissionWidget] for the supplied [Permission]
+  const PermissionWidget(this._permission);
 
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   void initState() {
-//     double x, y, z;
-//     // TODO: implement initState
-//     super.initState();
-//     accelerometerEvents.listen((AccelerometerEvent event) {
-//       setState(() {
-//         x = event.x;
-//         y = event.y;
-//         z = event.z;
+  final Permission _permission;
 
-//         print(x);
-//       });
-//     }); //get the sensor data and set then to the data types
-//   }
+  @override
+  _PermissionState createState() => _PermissionState(_permission);
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     double x = 0.0, y = 0.0, z = 0.0;
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: Text("Flutter Accelerometer Data"),
-//         ),
-//         body: Center(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: <Widget>[
-//               Padding(
-//                 padding: const EdgeInsets.all(10.0),
-//                 child: Text(
-//                   "For Actual device use",
-//                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w900),
-//                 ),
-//               ),
-//               Table(
-//                 border: TableBorder.all(
-//                     width: 2.0,
-//                     color: Colors.blueAccent,
-//                     style: BorderStyle.solid),
-//                 children: [
-//                   TableRow(
-//                     children: [
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                           "X Axis : ",
-//                           style: TextStyle(fontSize: 20.0),
-//                         ),
-//                       ),
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                             x.toStringAsFixed(
-//                                 2), //trim the asis value to 2 digit after decimal point
-//                             style: TextStyle(fontSize: 20.0)),
-//                       )
-//                     ],
-//                   ),
-//                   TableRow(
-//                     children: [
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                           "Y Axis : ",
-//                           style: TextStyle(fontSize: 20.0),
-//                         ),
-//                       ),
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                             y.toStringAsFixed(
-//                                 2), //trim the asis value to 2 digit after decimal point
-//                             style: TextStyle(fontSize: 20.0)),
-//                       )
-//                     ],
-//                   ),
-//                   TableRow(
-//                     children: [
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                           "Z Axis : ",
-//                           style: TextStyle(fontSize: 20.0),
-//                         ),
-//                       ),
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                             z.toStringAsFixed(
-//                                 2), //trim the asis value to 2 digit after decimal point
-//                             style: TextStyle(fontSize: 20.0)),
-//                       )
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ));
-//   }
-// }
+class _PermissionState extends State<PermissionWidget> {
+  _PermissionState(this._permission);
+
+  final Permission _permission;
+  PermissionStatus _permissionStatus = PermissionStatus.denied;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listenForPermissionStatus();
+  }
+
+  void _listenForPermissionStatus() async {
+    final status = await _permission.status;
+    setState(() => _permissionStatus = status);
+  }
+
+  Color getPermissionColor() {
+    switch (_permissionStatus) {
+      case PermissionStatus.denied:
+        return Colors.red;
+      case PermissionStatus.granted:
+        return Colors.green;
+      case PermissionStatus.limited:
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+        _permission.toString(),
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+      subtitle: Text(
+        _permissionStatus.toString(),
+        style: TextStyle(color: getPermissionColor()),
+      ),
+      trailing: (_permission is PermissionWithService)
+          ? IconButton(
+              icon: const Icon(
+                Icons.info,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                checkServiceStatus(
+                    context, _permission as PermissionWithService);
+              })
+          : null,
+      onTap: () {
+        requestPermission(_permission);
+      },
+    );
+  }
+
+  void checkServiceStatus(
+      BuildContext context, PermissionWithService permission) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text((await permission.serviceStatus).toString()),
+    ));
+  }
+
+  Future<void> requestPermission(Permission permission) async {
+    final status = await permission.request();
+
+    setState(() {
+      print(status);
+      _permissionStatus = status;
+      print(_permissionStatus);
+    });
+  }
+}

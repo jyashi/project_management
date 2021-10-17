@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'home_page.dart';
 // import 'package:fl_chart/fl_chart.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'data_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Navtej extends StatelessWidget {
   const Navtej({Key? key}) : super(key: key);
@@ -97,27 +101,15 @@ class SensorDataBody extends StatefulWidget {
 }
 
 class _SensorDataBodyState extends State<SensorDataBody> {
-  // @override
-  // void initState() {
-  //   double x, y, z;
-  //   super.initState();
-  //   accelerometerEvents.listen((AccelerometerEvent event) {
-  //     setState(() {
-  //       x = event.x;
-  //       y = event.y;
-  //       z = event.z;
-  //       @override
-  //       Widget build(BuildContext context) {
-  //         return Center(child: Text("$x"));
-  //       }
-  //     });
-  //   });
-  // }
-
   @override
+  //-------------Initialize variables---------------------------
   double x = 0.0;
   double y = 0.0;
   double z = 0.0;
+  String textSaveMessage = "";
+  String textPathName = "";
+
+//-------------------------------------------------------------------------
   Widget build(BuildContext context) {
     return Center(
       child: Column(
@@ -136,6 +128,7 @@ class _SensorDataBodyState extends State<SensorDataBody> {
                     x = event.x;
                     y = event.y;
                     z = event.z;
+                    CounterStorage();
                     @override
                     Widget build(BuildContext context) {
                       return Center(child: Text("$x"));
@@ -160,13 +153,48 @@ class _SensorDataBodyState extends State<SensorDataBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [Text("X Value"), Text("Y Value"), Text("Z Value")],
-          )
-          // Card(
-          //   child: BarChart(BarChartData(
-          //     minY: -5,
-          //     maxY: 5,
-          //   )),
-          // )
+          ),
+          Padding(padding: EdgeInsets.all(8)),
+          ElevatedButton(
+              onPressed: () {
+                bool loading = false;
+                // Future<bool> saveFile(String fileName) async {
+                //   Directory directory;
+                //   try{
+
+                //   }catch(e){
+
+                //   }
+                // }
+                Future<bool> _requestPermission(Permission permission) async {
+                  textSaveMessage = "YES ITS WORKING!!!!";
+                  print("YES ITS WORKING");
+                  if (await permission.isGranted) {
+                    return true;
+                  } else {
+                    var result = await permission.request();
+                    if (result == PermissionStatus.granted) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  }
+                }
+
+                CounterStorage().writeCounter("Hello world");
+                String path = "/storage/emulated/0/Android/data/";
+                File(path + "file.txt").writeAsString("Hello world");
+                textSaveMessage = "Your Data has been saved inside :" + path;
+
+                Future.delayed(const Duration(seconds: 4), () {
+                  textSaveMessage = "";
+                });
+              },
+              child: Text("Save data to file ")),
+          Text(
+            "$textSaveMessage",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           //Child
         ],
       ),
@@ -174,35 +202,7 @@ class _SensorDataBodyState extends State<SensorDataBody> {
   }
 }
 
-// class DataTest extends StatefulWidget {
-//   const DataTest({Key? key}) : super(key: key);
-
-//   @override
-//   _DataTestState createState() => _DataTestState();
-// }
-
-// class _DataTestState extends State<DataTest> {
-//   @override
-//   void initState() {
-//     double x, y, z;
-//     // TODO: implement initState
-//     super.initState();
-//   }
-//     @override
-//     Widget build(BuildContext context){accelerometerEvents.listen((AccelerometerEvent event) {
-//       setState(() {
-//         double x, y, z;
-//         x = event.x;
-//         y = event.y;
-//         z = event.z;
-//       });
-//         @override
-//         Widget build(BuildContext context) {
-//           return Center(child: Text("$x"));
-//         }
-//       });
-//     });
-
-    
-//   }
-// }
+Future<String> get _localPath async {
+  Directory dir = await getApplicationDocumentsDirectory();
+  return dir.path;
+}
