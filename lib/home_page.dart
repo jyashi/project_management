@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'navtej.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'nav_sempai_backend.dart';
 
 class MyScaffold extends StatelessWidget {
   const MyScaffold({Key? key}) : super(key: key);
@@ -77,7 +79,10 @@ class _MyBodyTextState extends State<MyBodyText> {
                 child: const Text("Natsumi",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
-                onPressed: () {},
+                onPressed: () {
+                  navWriteToFile(
+                      fName: "myFile.txt", textMsg: "Test message to save");
+                },
               ),
             ),
           ),
@@ -104,7 +109,10 @@ class _MyBodyTextState extends State<MyBodyText> {
                 child: const Text("Tanji",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
-                onPressed: () {},
+                onPressed: () {
+                  navGetDirectoryPath();
+                  navReadFromFile();
+                },
               ),
             ),
           ),
@@ -116,7 +124,11 @@ class _MyBodyTextState extends State<MyBodyText> {
                 child: const Text("Bara",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
-                onPressed: () {},
+                onPressed: () async {
+                  if (await navRequestStoragePermission() == false) {
+                    print("Its denied");
+                  }
+                },
               ),
             ),
           ),
@@ -125,15 +137,19 @@ class _MyBodyTextState extends State<MyBodyText> {
               leading: ClipOval(child: Image.asset("assets/Kenjiro.jpg")),
               trailing: Icon(Icons.bar_chart_rounded),
               title: ElevatedButton(
-                child: const Text("Kenjiro",
+                child: const Text("JiroKen",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
-                onPressed: () {},
+                onPressed: () {
+                  navOpenAppSettings();
+                },
               ),
             ),
           ),
           ElevatedButton(
-            onPressed: () => changeBodyText(),
+            onPressed: () async {
+              print("CLICKED");
+            },
             child: const Text("Next Page"),
           ),
         ],
