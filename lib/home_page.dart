@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'navtej.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'nav_sempai_backend.dart';
+import 'package:path/path.dart' as p;
+import 'package:camera/camera.dart';
+import 'dart:async';
 
 class MyScaffold extends StatelessWidget {
   const MyScaffold({Key? key}) : super(key: key);
@@ -46,7 +49,7 @@ class MyBodyText extends StatefulWidget {
 
 class _MyBodyTextState extends State<MyBodyText> {
   String bodyText = "Watch this text";
-  List teamMembers = ["Navi", "Natsumi"];
+
   void changeBodyText() {
     setState(() {
       bodyText = "You clicked it!!!";
@@ -76,12 +79,18 @@ class _MyBodyTextState extends State<MyBodyText> {
               leading: ClipOval(child: Image.asset("assets/Natsumi.jpg")),
               trailing: Icon(Icons.bar_chart),
               title: ElevatedButton(
-                child: const Text("Natsumi",
+                child: const Text("Write Text to file",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
                 onPressed: () {
+                  navRequestCameraPermission();
+                  navRequestStoragePermission();
+
                   navWriteToFile(
-                      fName: "myFile.txt", textMsg: "Test message to save");
+                      fName: "natsumiFile.txt",
+                      textMsg: "You have logged in x times");
+
+                  // navGetDirectoryPath();
                 },
               ),
             ),
@@ -106,12 +115,13 @@ class _MyBodyTextState extends State<MyBodyText> {
               leading: ClipOval(child: Image.asset("assets/Tanji.jpg")),
               trailing: Icon(Icons.bar_chart_rounded),
               title: ElevatedButton(
-                child: const Text("Tanji",
+                child: const Text("Read text from file",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
                 onPressed: () {
-                  navGetDirectoryPath();
-                  navReadFromFile();
+                  // navGetDirectoryPath();
+                  navReadFromFile(fName: "natsumiFile.txt");
+                  navReadFromFile(fName: "baraFile.txt");
                 },
               ),
             ),
@@ -121,13 +131,14 @@ class _MyBodyTextState extends State<MyBodyText> {
               leading: ClipOval(child: Image.asset("assets/Bara.jpg")),
               trailing: Icon(Icons.bar_chart_rounded),
               title: ElevatedButton(
-                child: const Text("Bara",
+                child: const Text("Write numbers to second file",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
                 onPressed: () async {
-                  if (await navRequestStoragePermission() == false) {
-                    print("Its denied");
-                  }
+                  List<String> myStringList = ["First list", "second list"];
+                  List<double> myDoubleList = [45.0, 22.0];
+                  navWriteToFile(
+                      fName: "baraFile.txt", textMsg: myDoubleList.toString());
                 },
               ),
             ),
@@ -137,11 +148,14 @@ class _MyBodyTextState extends State<MyBodyText> {
               leading: ClipOval(child: Image.asset("assets/Kenjiro.jpg")),
               trailing: Icon(Icons.bar_chart_rounded),
               title: ElevatedButton(
-                child: const Text("JiroKen",
+                child: const Text("Delete file",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
                 onPressed: () {
-                  navOpenAppSettings();
+                  // navOpenAppSettings();
+                  // navReadFromFile(fName: "yourFile.txt");
+                  navDeleteFile(fName: "natsumiFile.txt", ARE_YOU_SURE: true);
+                  navDeleteFile(fName: "baraFile.txt", ARE_YOU_SURE: true);
                 },
               ),
             ),
@@ -149,6 +163,7 @@ class _MyBodyTextState extends State<MyBodyText> {
           ElevatedButton(
             onPressed: () async {
               print("CLICKED");
+              openCamera();
             },
             child: const Text("Next Page"),
           ),
