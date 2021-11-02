@@ -1,10 +1,14 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/nav_camera_page.dart';
 import 'navtej.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'nav_sempai_backend.dart';
 import 'package:path/path.dart' as p;
 import 'package:camera/camera.dart';
-import 'dart:async';
+// import 'dart:async';
+import 'dart:io';
 
 class MyScaffold extends StatelessWidget {
   const MyScaffold({Key? key}) : super(key: key);
@@ -163,10 +167,23 @@ class _MyBodyTextState extends State<MyBodyText> {
           ElevatedButton(
             onPressed: () async {
               print("CLICKED");
-              openCamera();
             },
             child: const Text("Next Page"),
           ),
+          IconButton(
+              onPressed: () async {
+                final cameras = await availableCameras();
+                final firstCamera = cameras.first;
+                final lastCamera = cameras.last;
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TakePictureScreen(
+                          camera: lastCamera,
+                        )));
+              },
+              icon: Icon(Icons.camera_alt_sharp)),
+
+          // Image.file(File(
+          // "/data/user/0/com.example.flutter_application_1/cache/CAP2326513956949563262.jpg")),
         ],
       ),
     );
