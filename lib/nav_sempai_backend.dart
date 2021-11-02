@@ -7,6 +7,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'nav_camera_page.dart';
 
+
+/* 
+- Writes string value to a text or JSON file. 
+- Before writing checks if we have storage permission from user.
+- Returns true if we do, false if we dont. 
+
+Takes 2 parameters 
+1. fName: which is the file name you want to save in 
+2. textMsg: Which is the actual message you want to store in file.
+*/
 navWriteToFile(
     {required fName,
     required String textMsg,
@@ -24,6 +34,13 @@ navWriteToFile(
   }
 }
 
+/*
+- Reads data from a file located in default path.
+- Returns the String variable if file exists 
+- Returns empty string if file does not exist
+Requires 1 parameter
+1. fName : File name to read from
+*/
 Future<String> navReadFromFile({required String fName}) async {
   String textMsg;
   final File file = File(p.join(await navGetDirectoryPath(), "$fName"));
@@ -37,6 +54,10 @@ Future<String> navReadFromFile({required String fName}) async {
   }
 }
 
+/*
+navGetDirectoryPath() 
+Gets the default directory path from the device and returns it as string.
+*/
 Future<String> navGetDirectoryPath() async {
   final Directory directory = await getApplicationDocumentsDirectory();
 
@@ -44,6 +65,14 @@ Future<String> navGetDirectoryPath() async {
   // final File file = File(${directory.path)
 }
 
+/*
+navDeleteFile()
+- Deletes the provided file.
+Parameters required:
+1. fName: The file to delete
+2. ARE_YOU_SURE: A bool safety test to make sure the command isnt in error. 
+
+*/
 navDeleteFile({required fName, required bool ARE_YOU_SURE}) async {
   // Need to add test if the file name to be deleted doesnt exist...
   if (ARE_YOU_SURE) {
@@ -52,6 +81,11 @@ navDeleteFile({required fName, required bool ARE_YOU_SURE}) async {
     print("Deleted file $fName");
   }
 }
+
+/*
+navCheckStoragePermission()
+Checks for Storage permission 
+*/
 
 Future<bool> navCheckStoragePermission() async {
   if (await Permission.storage.isGranted == true) {
