@@ -131,6 +131,7 @@ class _SensorDataBodyState extends State<SensorDataBody> {
                     CounterStorage();
                     @override
                     Widget build(BuildContext context) {
+                      print("Returning X value");
                       return Center(child: Text("$x"));
                     }
                   });

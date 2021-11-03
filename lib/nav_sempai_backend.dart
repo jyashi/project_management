@@ -7,7 +7,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'nav_camera_page.dart';
 
-
 /* 
 - Writes string value to a text or JSON file. 
 - Before writing checks if we have storage permission from user.

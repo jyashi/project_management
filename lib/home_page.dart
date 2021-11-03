@@ -166,6 +166,10 @@ class _MyBodyTextState extends State<MyBodyText> {
           ),
           ElevatedButton(
             onPressed: () async {
+              setState(() {
+                bodyText = "New text";
+              });
+
               print("CLICKED");
             },
             child: const Text("Next Page"),
@@ -177,11 +181,12 @@ class _MyBodyTextState extends State<MyBodyText> {
                 final lastCamera = cameras.last;
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => TakePictureScreen(
-                          camera: lastCamera,
+                          camera: firstCamera,
                         )));
               },
               icon: Icon(Icons.camera_alt_sharp)),
 
+          Text("$bodyText"),
           // Image.file(File(
           // "/data/user/0/com.example.flutter_application_1/cache/CAP2326513956949563262.jpg")),
         ],
