@@ -189,10 +189,8 @@ class _MyBodyTextState extends State<MyBodyText> {
                         )));
               },
               icon: Icon(Icons.camera_alt_sharp)),
-
           Text("$bodyText"),
-          // Image.file(File(
-          // "/data/user/0/com.example.flutter_application_1/cache/CAP2326513956949563262.jpg")),
+          Image.file(File("/Users/iosdev/Downloads/myImg.jpeg"))
         ],
       ),
     );

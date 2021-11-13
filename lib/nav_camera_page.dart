@@ -76,26 +76,30 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               try {
                 // Ensure that the camera is initialized.
                 await _initializeControllerFuture;
+                String pathName = "/Users/iosdev/Downloads/myImg.jpeg";
 
                 // Attempt to take a picture and get the file `image`
                 // where it was saved.
                 final image = await _controller.takePicture();
-                storeImage(ImagePath: image.path);
-                print("Printing path : ");
-                print(image.path);
-                print(image.path.runtimeType);
+                await image.saveTo(pathName);
+                // storeImage(ImagePath: image.path);
+                // print("Printing path : ");
+                // print(image.path);
+                // print(image.path.runtimeType);
                 // If the picture was taken, display it on a new screen.
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => DisplayPictureScreen(
                       // Pass the automatically generated path to
                       // the DisplayPictureScreen widget.
-                      imagePath: image.path,
+                      // imagePath: image.path,
+                      imagePath: pathName,
                     ),
                   ),
                 );
               } catch (e) {
                 // If an error occurs, log the error to the console.
+                print("There was an error logged : ");
                 print(e);
               }
             },
@@ -136,7 +140,7 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      body: Image.file(File("/Users/iosdev/Downloads/myImg.jpeg")),
     );
   }
 }
