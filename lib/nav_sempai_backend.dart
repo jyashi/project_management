@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'nav_camera_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 /* 
 - Writes string value to a text or JSON file. 
@@ -118,4 +119,58 @@ Future<bool> navRequestCameraPermission() async {
 
 navOpenAppSettings() {
   AppSettings.openAppSettings();
+}
+
+class navOpenCamera extends StatefulWidget {
+  const navOpenCamera({Key? key}) : super(key: key);
+
+  @override
+  _navOpenCameraState createState() => _navOpenCameraState();
+}
+
+class _navOpenCameraState extends State<navOpenCamera> {
+  @override
+  Widget build(BuildContext context) {
+    print("BUILD DID FIRE");
+    Future accessCamera() async {
+      XFile? cameraFile = await ImagePicker().pickImage(
+          source: ImageSource.camera,
+          preferredCameraDevice: CameraDevice.front);
+
+      setState(() {
+        var _cameraFile = cameraFile;
+      });
+      return cameraFile;
+    }
+
+    return new Container();
+  }
+}
+
+class navShowImage extends StatefulWidget {
+  const navShowImage({Key? key}) : super(key: key);
+
+  @override
+  _navShowImageState createState() => _navShowImageState();
+}
+
+class _navShowImageState extends State<navShowImage> {
+  late File image;
+  @override
+  Widget build(BuildContext context) {
+    Future accessGallery() async {
+      XFile? img = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+
+      setState(() {
+        var image = img;
+      });
+      return image.path;
+    }
+
+    return Scaffold(
+      body: image == null ? Text('No Image Showing') : Image.file(image),
+    );
+  }
 }

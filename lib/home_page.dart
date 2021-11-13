@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 import 'package:camera/camera.dart';
 // import 'dart:async';
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class MyScaffold extends StatelessWidget {
   const MyScaffold({Key? key}) : super(key: key);
@@ -176,6 +177,9 @@ class _MyBodyTextState extends State<MyBodyText> {
           ),
           IconButton(
               onPressed: () async {
+                print("Trigger 1 fired");
+                // navShowImage();
+
                 final cameras = await availableCameras();
                 final firstCamera = cameras.first;
                 final lastCamera = cameras.last;

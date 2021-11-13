@@ -81,6 +81,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 // where it was saved.
                 final image = await _controller.takePicture();
                 storeImage(ImagePath: image.path);
+                print("Printing path : ");
+                print(image.path);
+                print(image.path.runtimeType);
                 // If the picture was taken, display it on a new screen.
                 await Navigator.of(context).push(
                   MaterialPageRoute(
