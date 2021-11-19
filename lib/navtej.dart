@@ -33,6 +33,7 @@ class Navtej extends StatelessWidget {
         body: Column(
           children: [
             ProjectOverview(),
+            SelectImages(),
           ],
         ),
       ),
@@ -206,4 +207,26 @@ class _SensorDataBodyState extends State<SensorDataBody> {
 Future<String> get _localPath async {
   Directory dir = await getApplicationDocumentsDirectory();
   return dir.path;
+}
+
+class SelectImages extends StatefulWidget {
+  const SelectImages({Key? key}) : super(key: key);
+
+  @override
+  _SelectImagesState createState() => _SelectImagesState();
+}
+
+class _SelectImagesState extends State<SelectImages> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: const [
+          Text("Add first Image"),
+          Padding(padding: EdgeInsets.all(15)),
+          // Card(child: ),
+        ],
+      ),
+    );
+  }
 }

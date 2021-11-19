@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/nav_camera_page.dart';
+import 'package:path_provider/path_provider.dart';
 import 'navtej.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'nav_sempai_backend.dart';
@@ -10,6 +11,7 @@ import 'package:camera/camera.dart';
 // import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+// import 'package:xfile/xfile.dart' as xf;
 
 class MyScaffold extends StatelessWidget {
   const MyScaffold({Key? key}) : super(key: key);
@@ -55,6 +57,47 @@ class MyBodyText extends StatefulWidget {
 class _MyBodyTextState extends State<MyBodyText> {
   String bodyText = "Watch this text";
 
+  XFile? imageFile;
+  File? imageStored;
+  // late File imageFile;
+  navTakePicture() async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    String dir = directory.path;
+    XFile? img = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      preferredCameraDevice: CameraDevice.rear,
+    );
+    String imagePath = img!.path;
+    final File imageStored = await File(imagePath).copy(dir + "/image1.jpg");
+
+    // bodyText = dir + "/image1.jpg";
+
+    // bodyText = imageStored.path;
+    setState(() {
+      imageStored;
+      // imageStored;
+      imageFile = img;
+      // print("|||||");
+      // print(imageFile?.path.toString());
+    });
+  }
+
+  Future<Widget> navShowPicture() async {
+    if (imageStored != null) {
+      String _path = imageStored!.path;
+      print(_path);
+      bodyText = _path;
+
+      return Image.file(File(_path));
+    } else {
+      return Container(
+        child: Icon(Icons.error_sharp),
+      );
+      // String path = imageFile!.path;
+
+    }
+  }
+
   void changeBodyText() {
     setState(() {
       bodyText = "You clicked it!!!";
@@ -94,8 +137,6 @@ class _MyBodyTextState extends State<MyBodyText> {
                   navWriteToFile(
                       fName: "natsumiFile.txt",
                       textMsg: "You have logged in x times");
-
-                  // navGetDirectoryPath();
                 },
               ),
             ),
@@ -124,7 +165,6 @@ class _MyBodyTextState extends State<MyBodyText> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20)),
                 onPressed: () {
-                  // navGetDirectoryPath();
                   navReadFromFile(fName: "natsumiFile.txt");
                   navReadFromFile(fName: "baraFile.txt");
                 },
@@ -178,19 +218,11 @@ class _MyBodyTextState extends State<MyBodyText> {
           IconButton(
               onPressed: () async {
                 print("Trigger 1 fired");
-                // navShowImage();
-
-                final cameras = await availableCameras();
-                final firstCamera = cameras.first;
-                final lastCamera = cameras.last;
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TakePictureScreen(
-                          camera: firstCamera,
-                        )));
+                navTakePicture();
               },
               icon: Icon(Icons.camera_alt_sharp)),
           Text("$bodyText"),
-          Image.file(File("/Users/iosdev/Downloads/myImg.jpeg"))
+          navShowPicture(),
         ],
       ),
     );

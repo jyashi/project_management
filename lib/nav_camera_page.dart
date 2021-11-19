@@ -71,21 +71,26 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           floatingActionButton: FloatingActionButton(
             // Provide an onPressed callback.
             onPressed: () async {
+              print("Pressed take photo button");
               // Take the Picture in a try / catch block. If anything goes wrong,
               // catch the error.
               try {
                 // Ensure that the camera is initialized.
                 await _initializeControllerFuture;
-                String pathName = "/Users/iosdev/Downloads/myImg.jpeg";
+                // String pathName = "/Users/iosdev/Downloads/myImg.jpeg";
 
                 // Attempt to take a picture and get the file `image`
                 // where it was saved.
+
                 final image = await _controller.takePicture();
-                await image.saveTo(pathName);
+
+                // await image.saveTo(image.path);
                 // storeImage(ImagePath: image.path);
-                // print("Printing path : ");
+
                 // print(image.path);
+
                 // print(image.path.runtimeType);
+                // print("Printing path : ");
                 // If the picture was taken, display it on a new screen.
                 await Navigator.of(context).push(
                   MaterialPageRoute(
@@ -93,7 +98,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                       // Pass the automatically generated path to
                       // the DisplayPictureScreen widget.
                       // imagePath: image.path,
-                      imagePath: pathName,
+                      imagePath: image.path,
                     ),
                   ),
                 );
@@ -111,7 +116,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           onPressed: () async {
             print("PRESSED!!!!");
             final cameras = await availableCameras();
-            final firstCamera = cameras.first;
+            final firstCamera = cameras.last;
             TakePictureScreen(camera: cameras.last);
             // Image.file(File(
             //     "/data/user/0/com.example.flutter_application_1/cache/CAP2326513956949563262.jpg"));
@@ -140,7 +145,7 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File("/Users/iosdev/Downloads/myImg.jpeg")),
+      body: Image.file(File(imagePath)),
     );
   }
 }

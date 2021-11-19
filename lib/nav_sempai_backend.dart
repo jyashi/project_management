@@ -156,21 +156,49 @@ class navShowImage extends StatefulWidget {
 
 class _navShowImageState extends State<navShowImage> {
   late File image;
+
   @override
   Widget build(BuildContext context) {
+    print("Picking from camera");
     Future accessGallery() async {
-      XFile? img = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
+      final XFile? img = await ImagePicker().pickImage(
+        source: ImageSource.camera,
       );
 
       setState(() {
         var image = img;
       });
-      return image.path;
+      return image;
     }
 
     return Scaffold(
       body: image == null ? Text('No Image Showing') : Image.file(image),
     );
+  }
+}
+
+class navImageClass extends StatefulWidget {
+  const navImageClass({Key? key}) : super(key: key);
+
+  @override
+  _navImageClassState createState() => _navImageClassState();
+}
+
+class _navImageClassState extends State<navImageClass> {
+  late XFile? imageFile;
+
+  navTakePicture() async {
+    var img = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    );
+    this.setState(() {
+      imageFile = img;
+      print(img?.path);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
