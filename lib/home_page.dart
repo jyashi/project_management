@@ -222,7 +222,7 @@ class _MyBodyTextState extends State<MyBodyText> {
               },
               icon: Icon(Icons.camera_alt_sharp)),
           Text("$bodyText"),
-          navShowPicture(),
+          // Future navShowPicture(),
         ],
       ),
     );
