@@ -6,8 +6,5 @@ import 'package:camera/camera.dart';
 
 List<CameraDescription> cameras = cameras;
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // final cameras = await availableCameras();
-  // final firstCamera = cameras.first;
   runApp(MyScaffold());
 }

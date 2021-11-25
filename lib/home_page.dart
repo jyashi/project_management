@@ -82,6 +82,21 @@ class _MyBodyTextState extends State<MyBodyText> {
     });
   }
 
+  Widget navShowPic() {
+    if (imageFile != null) {
+      String _path = imageFile!.path;
+      print("This fired");
+      bodyText = _path;
+
+      return Image.file(File(_path));
+    } else {
+      print("That fired");
+      return Container(
+        child: Icon(Icons.error_sharp),
+      );
+    }
+  }
+
   Future<Widget> navShowPicture() async {
     if (imageStored != null) {
       String _path = imageStored!.path;
@@ -222,7 +237,7 @@ class _MyBodyTextState extends State<MyBodyText> {
               },
               icon: Icon(Icons.camera_alt_sharp)),
           Text("$bodyText"),
-          // Future navShowPicture(),
+          navShowPic(),
         ],
       ),
     );
