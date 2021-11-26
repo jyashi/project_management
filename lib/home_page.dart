@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'navtej.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'nav_sempai_backend.dart';
-import 'package:path/path.dart' as p;
+// import 'package:path/path.dart' as p;
 import 'package:camera/camera.dart';
 // import 'dart:async';
 import 'dart:io';
@@ -64,7 +64,7 @@ class _MyBodyTextState extends State<MyBodyText> {
     final Directory directory = await getApplicationDocumentsDirectory();
     String dir = directory.path;
     XFile? img = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
       preferredCameraDevice: CameraDevice.rear,
     );
     String imagePath = img!.path;
@@ -85,12 +85,12 @@ class _MyBodyTextState extends State<MyBodyText> {
   Widget navShowPic() {
     if (imageFile != null) {
       String _path = imageFile!.path;
-      print("This fired");
+      print("IF fired");
       bodyText = _path;
 
       return Image.file(File(_path));
     } else {
-      print("That fired");
+      print("Else fired");
       return Container(
         child: Icon(Icons.error_sharp),
       );
