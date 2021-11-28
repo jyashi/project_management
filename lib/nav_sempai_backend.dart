@@ -202,3 +202,29 @@ class _navImageClassState extends State<navImageClass> {
     return Container();
   }
 }
+
+// Future<void> navShowDialogue(BuildContext context) async {
+//   return showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           content: SingleChildScrollView(
+//             child: ListBody(
+//               children: [
+//                 GestureDetector(
+//                   child: Text("Gallery"),
+//                   onTap: () {},
+//                 ),
+//                 Padding(padding: EdgeInsets.all(8)),
+//                 GestureDetector(
+//                   child: Text("Camera"),
+//                   onTap: () {
+                    
+//                   },
+//                 )
+//               ],
+//             ),
+//           ),
+//         );
+//       });
+// }

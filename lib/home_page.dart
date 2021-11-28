@@ -1,6 +1,10 @@
 // import 'dart:html';
 
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/diary_template.dart';
 import 'package:flutter_application_1/nav_camera_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'navtej.dart';
@@ -214,8 +218,9 @@ class _MyBodyTextState extends State<MyBodyText> {
                 onPressed: () {
                   // navOpenAppSettings();
                   // navReadFromFile(fName: "yourFile.txt");
-                  navDeleteFile(fName: "natsumiFile.txt", ARE_YOU_SURE: true);
-                  navDeleteFile(fName: "baraFile.txt", ARE_YOU_SURE: true);
+                  // navDeleteFile(fName: "natsumiFile.txt", ARE_YOU_SURE: true);
+                  // navDeleteFile(fName: "baraFile.txt", ARE_YOU_SURE: true);
+                  testFn();
                 },
               ),
             ),
@@ -226,14 +231,17 @@ class _MyBodyTextState extends State<MyBodyText> {
                 bodyText = "New text";
               });
 
-              print("CLICKED");
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => DiaryHomeScreen()));
             },
             child: const Text("Next Page"),
           ),
           IconButton(
               onPressed: () async {
                 print("Trigger 1 fired");
-                navTakePicture();
+                // navTakePicture();
+                // navReadFromFile(fName: "mapData.json");
+                // navShowDialogue(context);
               },
               icon: Icon(Icons.camera_alt_sharp)),
           Text("$bodyText"),
@@ -242,4 +250,13 @@ class _MyBodyTextState extends State<MyBodyText> {
       ),
     );
   }
+}
+
+testFn() {
+  HashMap<String, String> myMap = HashMap();
+  myMap["path"] = "../assets/";
+  myMap["textMsg"] = "This is my memo message";
+
+  navWriteToFile(fName: "mapData.json", textMsg: jsonEncode(myMap));
+  print("Values encoded");
 }

@@ -5,6 +5,7 @@ import 'package:flutter_application_1/diary_template.dart';
 // import 'nav_sempai_backend.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_application_1/home_page.dart';
+import 'home_page.dart';
 
 List<CameraDescription> cameras = cameras;
 Future<void> main() async {
@@ -16,9 +17,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: Scaffold(body: DiaryHomeScreen()),
-    );
+    return MaterialApp(theme: ThemeData.dark(), home: MyScaffold());
   }
 }

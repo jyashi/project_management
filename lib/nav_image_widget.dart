@@ -35,8 +35,32 @@ class _NavImageBoxState extends State<NavImageBox> {
     final Directory directory = await getApplicationDocumentsDirectory();
     String dir = directory.path;
     XFile? img = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
       preferredCameraDevice: CameraDevice.rear,
+    );
+    String imagePath = img
+            ?.path ?? // This ?? operator is important as a backup in case value was null
+        "/data/user/0/com.example.flutter_application_1/app_flutter/image1.jpg";
+    final File imageStored = await File(imagePath).copy(dir + "/image1.jpg");
+
+    // bodyText = dir + "/image1.jpg";
+
+    // bodyText = imageStored.path;
+    setState(() {
+      imageStored;
+      // imageStored;
+      imageFile = img;
+      // print("|||||");
+      // print(imageFile?.path.toString());
+    });
+  }
+
+  navPickPicture() async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    String dir = directory.path;
+    XFile? img = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.front,
     );
     String imagePath = img
             ?.path ?? // This ?? operator is important as a backup in case value was null
@@ -61,14 +85,11 @@ class _NavImageBoxState extends State<NavImageBox> {
       print("IF fired");
       // bodyText = _path;
 
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(100.0),
-        child: Image.file(
-          File(_path),
-          width: 350,
-          height: 350,
-          fit: BoxFit.contain,
-        ),
+      return Image.file(
+        File(_path),
+        width: 350,
+        height: 350,
+        fit: BoxFit.contain,
       );
     } else {
       print("Else fired");
@@ -77,6 +98,36 @@ class _NavImageBoxState extends State<NavImageBox> {
         child: Icon(Icons.error_sharp),
       );
     }
+  }
+
+  Future<void> navShowDialogue(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () {
+                      navPickPicture();
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Padding(padding: EdgeInsets.all(15)),
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () {
+                      navTakePicture();
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -90,7 +141,8 @@ class _NavImageBoxState extends State<NavImageBox> {
         child: TextButton(
           onPressed: () {
             // getGalleryImage();
-            navTakePicture();
+            // navTakePicture();
+            navShowDialogue(context);
           },
           child: Container(),
         ),
